@@ -8,3 +8,4 @@ ui.development.env
 .npmrc
 *.log
 /dist
+package-lock.json

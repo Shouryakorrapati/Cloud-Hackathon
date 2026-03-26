@@ -1,0 +1,57 @@
+service: library-api
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-south-1
+
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:*
+          Resource: "*"
+
+functions:
+  getBooks:
+    handler: src/handler.getBooks
+    events:
+      - httpApi:
+          path: /books
+          method: get
+
+  addBook:
+    handler: src/handler.addBook
+    events:
+      - httpApi:
+          path: /books
+          method: post
+
+  borrowBook:
+    handler: src/handler.borrowBook
+    events:
+      - httpApi:
+          path: /borrow/{id}
+          method: post
+
+  returnBook:
+    handler: src/handler.returnBook
+    events:
+      - httpApi:
+          path: /return/{id}
+          method: post
+
+resources:
+  Resources:
+    BooksTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Books
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST

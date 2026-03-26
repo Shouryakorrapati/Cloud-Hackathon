@@ -1,0 +1,10 @@
+/.build
+/node_modules
+/.serverless
+lib/la-ui-schema
+lib/app.spec.ts
+ui.development.env
+*.env
+.npmrc
+*.log
+/dist
